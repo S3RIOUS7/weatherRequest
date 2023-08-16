@@ -1,0 +1,15 @@
+.input-container{
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+.inputField{
+  height: 35px;
+  width: 257px;
+  border-radius: 50px;
+  border: none;
+  text-align: center;
+  font-size: 24px;
+}
+.inputField:focus{
+  outline: none;
+}
