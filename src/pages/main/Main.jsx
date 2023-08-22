@@ -4,41 +4,61 @@ import axios from 'axios';
 import SmallContainer from '../../components/smallContainer/SmallContainer';
 import Input from '../../components/input/Input';
 import Sun from '../../assets/img/SUN.svg'
+
 function Main() {
   const [inputSearch, setInputSearch] = useState('');
   const [weatherData, setWeatherData] = useState(null); 
+  const [searchButton, setsearchButton] = useState(false);
 
   const inputChange = (event) => {
     setInputSearch(event.target.value);
   }
 
   const fetchWeatherData = () => {
-    
-    const apiRespons = `http://api.openweathermap.org/data/2.5/forecast?id=690791&cnt=5&lang=ua&appid=0253d0a06c11efe90f17a5e5b13601bf&units=metric`;
 
-    axios.get(apiRespons)
+    if (!searchButton) {
+      return; 
+    }
+    const apiKey = '0253d0a06c11efe90f17a5e5b13601bf';
+    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${inputSearch}&cnt=1&lang=ua&appid=${apiKey}&units=metric`;
+
+    axios.get(apiURL)
       .then(response => {
         setWeatherData(response.data);
-         console.log(response.data)
+        setsearchButton(false);
       })
       .catch(error => {
         console.error('Error fetching weather data:', error);
+        setWeatherData(null);
+        setsearchButton(false);
       });
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault(); // Предотвращаем перезагрузку страницы при нажатии Enter
+    fetchWeatherData();
+    setInputSearch('');
   };
 
   const date = new Date()
 
-
   useEffect(() => {
-    fetchWeatherData();
+    if (inputSearch) {
+      fetchWeatherData();
+    } else {
+      setWeatherData(null);
+    }
   }, [inputSearch]);
 
   return (
     <div className='main'>
       <div className="main-container">
         <div className='main-weather'>
-          <Input label="Search Location" value={inputSearch} onChange={inputChange} />
-          {weatherData && (
+          <form onSubmit={handleSearch}> 
+            <Input label="Search Location" value={inputSearch} onChange={inputChange} />
+            <button onClick={() => setsearchButton(true)}>Search</button>
+          </form>
+        {weatherData && (
           <div className="weather">
             <div className='weatherPic'>
             <div className='weather-info'>

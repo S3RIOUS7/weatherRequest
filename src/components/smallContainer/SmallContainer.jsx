@@ -1,6 +1,6 @@
 import React from 'react';
 import '../smallContainer/smallContainer.scss'
-function SmallContainer() {
+function SmallContainer({ data }) {
   return (
     <div className='small-container'>
       <div className='date'></div>
