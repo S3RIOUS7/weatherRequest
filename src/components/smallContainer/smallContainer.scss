@@ -5,14 +5,17 @@
   margin-bottom: 10px;
   border-radius: 50px;
   .date{
-    width: 136px;
-    height:35px;
-   padding: 10px ; 
+   min-width: 136px;
+    min-height:35px;
+   padding: 15px ; 
    justify-content: center;
    display: flex;
    align-items: center;
    text-align: center;
-
+   h2{
+     margin: 0px;
+     color: aliceblue;
+   }
   }
   .temperature{
     width: 145px;
@@ -20,5 +23,9 @@
     border-radius: 40px;
     background-color: rgba(6, 80, 240, 0.5);
     margin-left: 10px;
+    font-size:34px;
+    color: aliceblue;
+    padding-top: 10px;
   }
+ 
 }

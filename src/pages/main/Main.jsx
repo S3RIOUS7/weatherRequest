@@ -1,5 +1,5 @@
 import '../main/main.scss'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import SmallContainer from '../../components/smallContainer/SmallContainer';
 import Input from '../../components/input/Input';
@@ -20,7 +20,7 @@ function Main() {
       return; 
     }
     const apiKey = '0253d0a06c11efe90f17a5e5b13601bf';
-    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${inputSearch}&cnt=1&lang=ua&appid=${apiKey}&units=metric`;
+    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${inputSearch}&cnt=4&lang=ua&appid=${apiKey}&units=metric`;
 
     axios.get(apiURL)
       .then(response => {
@@ -41,6 +41,15 @@ function Main() {
   };
 
   const date = new Date()
+
+  const tomorrow = new Date(date);
+  tomorrow.setDate(date.getDate() + 1);
+
+  const dayAfterTomorrow = new Date(date);
+  dayAfterTomorrow.setDate(date.getDate() + 2);
+
+  const dayAfterAfter = new Date(date);
+  dayAfterAfter.setDate(date.getDate() + 3)
 
   useEffect(() => {
     if (inputSearch) {
@@ -78,9 +87,23 @@ function Main() {
         )}
         </div>
         <div className='other-weather'>
-          <SmallContainer />
-          <SmallContainer />
-          <SmallContainer />
+        {weatherData && (
+          <Fragment>
+          <SmallContainer
+            date={tomorrow.toDateString()}
+            temperature={weatherData.list[1].main.temp}
+          />
+          <SmallContainer
+          date={dayAfterTomorrow.toDateString()}
+          temperature={weatherData.list[2].main.temp}
+        />
+        <SmallContainer
+        date={dayAfterAfter.toDateString()}
+        temperature={weatherData.list[3].main.temp}
+      />
+      </Fragment>
+        )}
+         
         </div>
       </div>
     </div>

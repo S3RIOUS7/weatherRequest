@@ -1,10 +1,10 @@
 import React from 'react';
 import '../smallContainer/smallContainer.scss'
-function SmallContainer({ data }) {
+function SmallContainer(props) {
   return (
     <div className='small-container'>
-      <div className='date'></div>
-      <div className='temperature'></div>
+      <div className='date'><h2>{props.date}</h2></div>
+      <div className='temperature'>{props.temperature}°C</div>
     </div>
   );
 }
