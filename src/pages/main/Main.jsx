@@ -4,11 +4,13 @@ import axios from 'axios';
 import SmallContainer from '../../components/smallContainer/SmallContainer';
 import Input from '../../components/input/Input';
 import Sun from '../../assets/img/SUN.svg'
+import { API_KEY, BASE_URL } from '../../utils/constants/constants';
+
+
 
 function Main() {
   const [inputSearch, setInputSearch] = useState('');
-  const [weatherData, setWeatherData] = useState(null); 
-  const [searchButton, setsearchButton] = useState(false);
+  const [weatherData, setWeatherData] = useState(null); //записывает данные полученые по запросу
 
   const inputChange = (event) => {
     setInputSearch(event.target.value);
@@ -16,29 +18,25 @@ function Main() {
 
   const fetchWeatherData = () => {
 
-    if (!searchButton) {
-      return; 
-    }
-    const apiKey = '0253d0a06c11efe90f17a5e5b13601bf';
-    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${inputSearch}&cnt=4&lang=ua&appid=${apiKey}&units=metric`;
+    const apiURL = `${BASE_URL}/data/2.5/forecast?q=${inputSearch}&cnt=4&lang=ua&appid=${API_KEY}&units=metric`;
 
     axios.get(apiURL)
       .then(response => {
         setWeatherData(response.data);
-        setsearchButton(false);
+        
       })
       .catch(error => {
         console.error('Error fetching weather data:', error);
         setWeatherData(null);
-        setsearchButton(false);
+        
       });
   };
 
-  const handleSearch = (event) => {
+  const searchCity = (event) => {
     event.preventDefault(); // Предотвращаем перезагрузку страницы при нажатии Enter
-    fetchWeatherData();
+     fetchWeatherData();
     setInputSearch('');
-  };
+  }
 
   const date = new Date()
 
@@ -51,28 +49,28 @@ function Main() {
   const dayAfterAfter = new Date(date);
   dayAfterAfter.setDate(date.getDate() + 3)
 
-  useEffect(() => {
-    if (inputSearch) {
-      fetchWeatherData();
-    } else {
-      setWeatherData(null);
-    }
-  }, [inputSearch]);
+  // useEffect(() => {
+  //   if (inputSearch) {
+  //     fetchWeatherData();
+  //   } else {
+  //     setWeatherData(null); // при запуске приложения запускалась погода
+  //   }
+  // }, [inputSearch]);
 
   return (
     <div className='main'>
       <div className="main-container">
         <div className='main-weather'>
-          <form onSubmit={handleSearch}> 
+          <form onSubmit={searchCity}> 
             <Input label="Search Location" value={inputSearch} onChange={inputChange} />
-            <button onClick={() => setsearchButton(true)}>Search</button>
+            <button  type='submit'>Search</button>
           </form>
         {weatherData && (
           <div className="weather">
             <div className='weatherPic'>
             <div className='weather-info'>
             <h2>{weatherData.city.name}</h2>
-            <p1>{date.toDateString()}</p1>
+            <p>{date.toDateString()}</p>
             <p>{weatherData.list[0].main.temp}°C</p>
             </div>
            
