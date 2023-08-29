@@ -1,107 +1,80 @@
-import '../main/main.scss'
-import React, { useState, useEffect, Fragment } from 'react';
+import '../main/main.scss';
+import React, { useState, useEffect  } from 'react';
 import axios from 'axios';
 import SmallContainer from '../../components/smallContainer/SmallContainer';
 import Input from '../../components/input/Input';
-import Sun from '../../assets/img/SUN.svg'
+
 import { API_KEY, BASE_URL } from '../../utils/constants/constants';
-
-
+import MainContainer from '../../components/mainContainer/MainContainer';
 
 function Main() {
+  const firstCity = 'Zaporizhzhia'; 
   const [inputSearch, setInputSearch] = useState('');
-  const [weatherData, setWeatherData] = useState(null); //записывает данные полученые по запросу
+  const [weatherData, setWeatherData] = useState(null);
+  
 
   const inputChange = (event) => {
     setInputSearch(event.target.value);
-  }
+  };
 
-  const fetchWeatherData = () => {
-
-    const apiURL = `${BASE_URL}/data/2.5/forecast?q=${inputSearch}&cnt=4&lang=ua&appid=${API_KEY}&units=metric`;
+  const fetchWeatherData = (city) => {
+    const apiURL = `${BASE_URL}/data/2.5/forecast?q=${city}&lang=ua&appid=${API_KEY}&units=metric`;
 
     axios.get(apiURL)
       .then(response => {
-        setWeatherData(response.data);
-        
+        let result = response.data;
+        result.list = result.list.filter((it, i) => i === 0 || i === 8 || i === 16 || i === 24);
+        setWeatherData(result);
+       
       })
       .catch(error => {
         console.error('Error fetching weather data:', error);
         setWeatherData(null);
-        
       });
   };
 
+
   const searchCity = (event) => {
-    event.preventDefault(); // Предотвращаем перезагрузку страницы при нажатии Enter
-     fetchWeatherData();
+    event.preventDefault();
+    fetchWeatherData(inputSearch);
     setInputSearch('');
-  }
+  };
 
-  const date = new Date()
-
-  const tomorrow = new Date(date);
-  tomorrow.setDate(date.getDate() + 1);
-
-  const dayAfterTomorrow = new Date(date);
-  dayAfterTomorrow.setDate(date.getDate() + 2);
-
-  const dayAfterAfter = new Date(date);
-  dayAfterAfter.setDate(date.getDate() + 3)
-
-  // useEffect(() => {
-  //   if (inputSearch) {
-  //     fetchWeatherData();
-  //   } else {
-  //     setWeatherData(null); // при запуске приложения запускалась погода
-  //   }
-  // }, [inputSearch]);
+  useEffect(() => {
+    fetchWeatherData( firstCity); 
+  }, []);
 
   return (
     <div className='main'>
       <div className="main-container">
         <div className='main-weather'>
-          <form onSubmit={searchCity}> 
+          <form onSubmit={searchCity}>
             <Input label="Search Location" value={inputSearch} onChange={inputChange} />
-            <button  type='submit'>Search</button>
+            <button type='submit'>Search</button>
           </form>
-        {weatherData && (
-          <div className="weather">
-            <div className='weatherPic'>
-            <div className='weather-info'>
-            <h2>{weatherData.city.name}</h2>
-            <p>{date.toDateString()}</p>
-            <p>{weatherData.list[0].main.temp}°C</p>
-            </div>
-           
-            <div className='picture'><img src={Sun}/></div>
-            </div>
-            <div className='tempLowHigh'>
-            <div className='lowHigh'><p>{weatherData.list[0].main.temp_max}°C</p></div>
-            <div className='lowHigh'><p>{weatherData.list[0].main.temp_min}°C</p></div>
-            </div>
-          </div>
 
-        )}
-        </div>
-        <div className='other-weather'>
-        {weatherData && (
-          <Fragment>
-          <SmallContainer
-            date={tomorrow.toDateString()}
-            temperature={weatherData.list[1].main.temp}
-          />
-          <SmallContainer
-          date={dayAfterTomorrow.toDateString()}
-          temperature={weatherData.list[2].main.temp}
-        />
-        <SmallContainer
-        date={dayAfterAfter.toDateString()}
-        temperature={weatherData.list[3].main.temp}
-      />
-      </Fragment>
-        )}
-         
+          {weatherData && (
+            <div>
+              <MainContainer
+                date={weatherData.list[0].dt_txt.substring(0, 10)}
+                temperature={weatherData.list[0].main.temp}
+                city={weatherData.city.name}
+                maxTemp={weatherData.list[0].main.temp_max}
+                minTemp={weatherData.list[0].main.temp_min}
+              />
+              {weatherData.list.length > 1 && (
+                <div className='other-weather'>
+                  {weatherData.list.slice(1).map((item, index) => (
+                    <SmallContainer
+                      key={index}
+                      temperature={item.main.temp}
+                      date={item.dt_txt.substring(0, 10)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
