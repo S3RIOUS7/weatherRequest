@@ -1,4 +1,4 @@
-
+import '../mainContainer/mainContainer.scss'
 import Sun from '../../assets/img/SUN.svg'
 function MainContainer (props) {
 

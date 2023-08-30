@@ -6,82 +6,34 @@
   margin-top: 100px;
   
 }
-.main-container{
-  width: 100%;
-  max-width: 987px;
-  min-height: 526px;
-  background-image: url(../../../src/assets/img/backgroundImage.svg);
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  
-  .main-weather{
-    width: 597px;
-    height: 476px;
+.main-weather{
+  min-width: 597px;
+    min-height: 476px;
    margin-top: 25px;
     background-color: rgba(251, 251, 251, 0.555);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    
-  }
-  .button{
-    
+    background-image: url(../../../src/assets/img/backgroundImage.svg);
+    background-size: cover;
+  
+  
+  button{
+    width: 100px;
      border: none;
      border-radius: 10px;
      height: 20px;
      margin: 10px 0px;
-    
+     background-color: whitesmoke;
+     &:hover {
+       opacity: 0.8;
+      
+     }
   }
-  .weather{
-    background-color: rgba(6, 80, 240, 0.3);
-    min-height: 302px;
-    min-width: 506px;
-    position: relative;
-    margin-left: 25px;
-    margin-right: 25px;
-    border-radius: 50px;
-    margin-top: 20px;
-    
-    h2{
-     margin: 0;
-     padding: 10px 0px;
-      color: honeydew;
-      font-size: 30px;
-    } 
-   
-    p{
-      margin: 0px;
-      color: honeydew;
-      font-size: 40px;
-    }
-   .picture{
-     margin-top: 30px;
-   }
-    .lowHigh{
-      width: 181px;
-      height:65px;
-      border-radius: 40px;
-      margin-top: 20px;
-      background-color: rgba(6, 80, 240, 0.3);
-      p{
-        color: honeydew;
-        font-size:34px;
-        padding-top: 10px;
-      }
-    }
-    .tempLowHigh{
-      margin-top: 20px;
-    display: flex;
-    flex-direction:row ;
-    justify-content: space-evenly;
+
   }
-    .weatherPic{
-      display: flex;
-      justify-content: space-evenly;
-    }
-  }
+
+  
   .other-weather{
     width: 297px;
     height: 476px;
@@ -90,5 +42,15 @@
     
   }
   
-}
 
+
+.response{
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  h2{
+    font-size: 40px;
+  margin-top: 25px;
+  
+  }
+}

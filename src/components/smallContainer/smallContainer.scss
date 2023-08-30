@@ -1,7 +1,7 @@
 .small-container{
   background-color: rgba(251, 251, 251, 0.22);
-  width: 297px;
-  height: 151px;
+  width: 270px;
+  height: 145px;
   margin-bottom: 10px;
   border-radius: 50px;
   .date{
@@ -12,20 +12,22 @@
    display: flex;
    align-items: center;
    text-align: center;
-   h2{
+   h1{
      margin: 0px;
      color: aliceblue;
    }
   }
   .temperature{
-    width: 145px;
-    height:65px;
-    border-radius: 40px;
+    max-width: 145px;
+    height:45px;
+    border-radius: 30px;
     background-color: rgba(6, 80, 240, 0.5);
     margin-left: 10px;
-    font-size:34px;
+    font-size:25px;
     color: aliceblue;
-    padding-top: 10px;
+    margin-top: 5px;
+    padding-top: 5px;
+
   }
  
 }
