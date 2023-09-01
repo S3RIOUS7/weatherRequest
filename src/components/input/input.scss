@@ -13,3 +13,8 @@
 .inputField:focus{
   outline: none;
 }
+@media screen and (max-width: 500px){
+  .inputField{
+    max-width: 357px;
+  }
+}

@@ -3,8 +3,7 @@
   align-items: center;
   text-align: center;
   display: flex;
-  margin-top: 100px;
-  
+  margin-top: 50px;
 }
 .main-weather{
   min-width: 597px;
@@ -16,8 +15,6 @@
     flex-direction: column;
     background-image: url(../../../src/assets/img/backgroundImage.svg);
     background-size: cover;
-  
-  
   button{
     width: 100px;
      border: none;
@@ -30,20 +27,14 @@
       
      }
   }
-
   }
-
-  
   .other-weather{
-    width: 297px;
+    max-width: 297px;
     height: 476px;
     margin-top: 25px;
     background-color: rgba(251, 251, 251, 0);
-    
+    margin-right: 25px;
   }
-  
-
-
 .response{
   display: flex;
   margin-bottom: 20px;
@@ -53,4 +44,24 @@
   margin-top: 25px;
   
   }
+}
+@media screen and (max-width: 800px){
+  .main{
+    margin: 20px;
+  }
+}
+@media screen and (max-width: 500px){
+  .main{
+    margin: 0;
+  }
+  .response{
+    margin: 0;
+  }
+.other-weather{
+  display: none;
+
+}
+.main-weather{
+  margin: 0;
+}
 }
